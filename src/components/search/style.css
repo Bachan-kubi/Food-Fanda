@@ -1,0 +1,17 @@
+.search{
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+.search input{
+    padding: 10px 50px;
+}
+.search button{
+    color: teal;
+    font-size: bold;
+    padding: 15px 50px;
+    background-color: burlywood; 
+    box-shadow: 0 1px 3px 0 rgb(0, 0, 0, 1, green, blue);
+    border-color: red;
+    border-radius: 5px;
+}
