@@ -54,7 +54,15 @@ const Homepage = () => {
   useEffect(()=>{
     const getFromLs = JSON.parse(localStorage.getItem('favourites'));
     setFavorites(getFromLs)
-  },[])
+  },[]);
+
+  // remove from favs
+  const handleRemove = (getFav)=>{
+    let copyFavs = [...favorites];
+    copyFavs = copyFavs.filter(item=>item.id !== getFav);
+    setFavorites(copyFavs);
+    localStorage.setItem('favourites', JSON.stringify(copyFavs))
+  }
 
   return (
     <div>
@@ -68,7 +76,7 @@ const Homepage = () => {
       <div>
         <h2>My Favorites</h2>
         <div className="favs">
-        {favorites && favorites.length>0?favorites.map(item=><FavItems id={item.id} image={item.image} title={item.title} />): null}
+        {favorites && favorites.length>0?favorites.map(item=><FavItems id={item.id} image={item.image} title={item.title} handleRemove={()=>handleRemove(item.id)} />): null}
         </div>
       </div>
       <div className="foods">
