@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AllFood from "../../components/AllFood";
 import Search from "../../components/search/Search";
 
+
 const ami = "ami";
 
 const Homepage = () => {
@@ -9,6 +10,8 @@ const Homepage = () => {
   const [loading, setLoading] = useState(false);
   // store api response data
   const [recipes, setRecipies] = useState([]);
+  // store data from selected favorites
+  const [favorites, setFavorites] = useState([])
 
   const getDataFromSearch = (getData) => {
     // keep the loading state as true
@@ -32,7 +35,20 @@ const Homepage = () => {
     }
     foodRecipes();
   };
-  console.log(loading, recipes);
+// add to favorites method to get data from another component/
+  const addToFavorite=(getFav)=>{
+    console.log(getFav);
+    let cpyFavourites = [...favorites];
+    const index = cpyFavourites.findIndex(item=>item.id === getFav.id);
+    
+    if(index === -1){
+      cpyFavourites.push(getFav)
+      setFavorites(cpyFavourites);
+      localStorage.setItem('favourites', JSON.stringify(cpyFavourites))
+    }else{
+      alert("Items already Added!")
+    }
+  }
 
   return (
     <div>
@@ -44,8 +60,10 @@ const Homepage = () => {
         </div>
       )}
 
-      {/* map or render api data */}
-      {recipes && recipes.length > 0 ? recipes.map(item => <AllFood id={item.id} image={item.image} title={item.title}   />): null}
+      <div className="foods">
+        {/* map or render api data */}
+      {recipes && recipes.length > 0 ? recipes.map(item => <AllFood id={item.id} image={item.image} title={item.title} addToFavorite={()=>addToFavorite(item)}  />): null}
+      </div>
     </div>
   );
 };

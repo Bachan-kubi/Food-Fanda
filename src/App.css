@@ -9,4 +9,8 @@
   text-align: center;
   color: red;
 }
+.foods{
+  display: grid;
+  grid-template-columns: repeat(1fr, 3);
+}
 
