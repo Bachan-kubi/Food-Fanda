@@ -15,3 +15,8 @@
     border-color: red;
     border-radius: 5px;
 }
+.allFoods{
+    border: 1px solid red;
+    padding: 7px;
+    margin: 10px;
+}

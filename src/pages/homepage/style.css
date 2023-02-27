@@ -1,0 +1,18 @@
+.foods{
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+}
+.addFav-btn{
+    background-color: rgb(116, 211, 248);
+    padding: 15px 10px;
+    margin: 10px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px solid grey;
+    color: white;
+    font-size: 15px;
+}
+.favs{
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+}

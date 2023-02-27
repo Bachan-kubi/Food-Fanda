@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AllFood from "../../components/AllFood";
+import FavItems from "../../components/fav/FavItems";
 import Search from "../../components/search/Search";
+import './style.css';
 
 
-const ami = "ami";
 
 const Homepage = () => {
   // set loading state
@@ -48,18 +49,28 @@ const Homepage = () => {
     }else{
       alert("Items already Added!")
     }
-  }
+  };
+  // show in fav sections
+  useEffect(()=>{
+    const getFromLs = JSON.parse(localStorage.getItem('favourites'));
+    setFavorites(getFromLs)
+  },[])
 
   return (
     <div>
-      <Search getDataFromSearch={getDataFromSearch} ami={ami} />
+      <Search getDataFromSearch={getDataFromSearch} />
       {/* loading warning */}
       {loading && (
         <div>
           <h2>Loading Recipes. Please wait.</h2>
         </div>
       )}
-
+      <div>
+        <h2>My Favorites</h2>
+        <div className="favs">
+        {favorites && favorites.length>0?favorites.map(item=><FavItems id={item.id} image={item.image} title={item.title} />): null}
+        </div>
+      </div>
       <div className="foods">
         {/* map or render api data */}
       {recipes && recipes.length > 0 ? recipes.map(item => <AllFood id={item.id} image={item.image} title={item.title} addToFavorite={()=>addToFavorite(item)}  />): null}
