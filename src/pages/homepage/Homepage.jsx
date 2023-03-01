@@ -96,6 +96,7 @@ const Homepage = () => {
 
   return (
     <div>
+
       <Search 
         getDataFromSearch={getDataFromSearch}
         apiCallSuc={apiCallSuc}

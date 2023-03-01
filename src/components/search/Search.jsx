@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { ThemeContext } from '../../App';
 import './style.css';
 
 const Search = (props) => {
     const [inputValue, setInputValue] = useState('');
     // console.log(props);
     const {getDataFromSearch, apiCallSuc, setApiCallSuc} = props;
+
+    const {theme} = useContext(ThemeContext);
 
     const handleInput=(event)=>{
         const {value} = event.target;
@@ -27,7 +30,7 @@ const Search = (props) => {
     return (
         <form onSubmit={handleSubmit} className='search'>
             <input name='search' onChange={handleInput} value={inputValue} placeholder='Type Items' id="search"/>
-            <button type='submit'>Submit</button>
+            <button style={theme ? {backgroundColor: 'red'}: {}} type='submit'>Submit</button>
         </form>
     );
 };

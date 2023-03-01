@@ -1,0 +1,10 @@
+.theme-btn{
+    cursor: pointer;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border: 1px solid red;
+    border-radius: 10px;
+    color: teal;
+    font-size: 20px;
+    background-color: coral;
+}

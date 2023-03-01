@@ -4,6 +4,7 @@ import React from "react";
 const AllFood = (props) => {
   // console.log(props);
   const { id, image, title, addToFavorite } = props;
+  
 
   return (
     <div className="allFoods">
