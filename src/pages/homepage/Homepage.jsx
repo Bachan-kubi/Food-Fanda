@@ -1,9 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import AllFood from "../../components/AllFood";
 import FavItems from "../../components/fav/FavItems";
 import Search from "../../components/search/Search";
 import './style.css';
 
+const reducer = (state, action)=>{
+  switch(action.type){
+    case 'filterFavorites':
+      console.log(action)
+
+    return {
+      ...state,
+      filteredValue: action.value,
+    };
+
+
+    default:
+    return state;
+  }
+}
+
+const initialState={
+  filteredValue: '',
+};
 
 
 const Homepage = () => {
@@ -12,7 +31,11 @@ const Homepage = () => {
   // store api response data
   const [recipes, setRecipies] = useState([]);
   // store data from selected favorites
-  const [favorites, setFavorites] = useState([])
+  const [favorites, setFavorites] = useState([]);
+  // state for api call suceess or not
+  const [apiCallSuc, setApiCallSuc] = useState(false);
+  // useRedcer funcitoanllity 
+  const [filteredState, dispatch] = useReducer(reducer, initialState);
 
   const getDataFromSearch = (getData) => {
     // keep the loading state as true
@@ -32,10 +55,12 @@ const Homepage = () => {
       if (results && results.length > 0) {
         setLoading(false);
         setRecipies(results);
+        setApiCallSuc(true);
       }
     }
     foodRecipes();
   };
+
 // add to favorites method to get data from another component/
   const addToFavorite=(getFav)=>{
     console.log(getFav);
@@ -62,11 +87,20 @@ const Homepage = () => {
     copyFavs = copyFavs.filter(item=>item.id !== getFav);
     setFavorites(copyFavs);
     localStorage.setItem('favourites', JSON.stringify(copyFavs))
-  }
+  };
+
+  console.log(filteredState, 'filteredstate');
+
+  // filter favorites
+  const filterFavoritesItems = favorites.filter(item=>item.title.toLowerCase().includes(filteredState.filteredValue))
 
   return (
     <div>
-      <Search getDataFromSearch={getDataFromSearch} />
+      <Search 
+        getDataFromSearch={getDataFromSearch}
+        apiCallSuc={apiCallSuc}
+        setApiCallSuc={setApiCallSuc}
+         />
       {/* loading warning */}
       {loading && (
         <div>
@@ -76,7 +110,11 @@ const Homepage = () => {
       <div>
         <h2>My Favorites</h2>
         <div className="favs">
-        {favorites && favorites.length>0?favorites.map(item=><FavItems id={item.id} image={item.image} title={item.title} handleRemove={()=>handleRemove(item.id)} />): null}
+        {filterFavoritesItems && filterFavoritesItems.length>0?filterFavoritesItems.map(item=><FavItems id={item.id} image={item.image} title={item.title} handleRemove={()=>handleRemove(item.id)} />): null}
+        </div>
+        <div>
+          <h2>Search Favorites</h2>
+          <input onChange={(event)=>dispatch({type: 'filterFavorites', value: event.target.value})} value={filteredState.filteredValue} name="search-fav" placeholder="Search Favorites" />
         </div>
       </div>
       <div className="foods">
